@@ -2,7 +2,20 @@ import streamlit as st
 import downloader
 
 
-RICKROLL_URL = "https://www.youtube.com/watch?v=xvFZjo5PgG0"
+@st.dialog("KapTube")
+def show_video_player() -> None:
+    st.markdown(f"##### {yt_vid.title}")
+    st.video(yt_vid.content, autoplay=True, loop=True)
+    st.download_button(
+        "Download",
+        yt_vid.content,
+        file_name=yt_vid.filename,
+        mime="video/mp4",
+        type="primary",
+        icon=":material/vertical_align_bottom:",
+        use_container_width=True
+    )
+
 
 st.set_page_config(
     page_title="KapTube | #dwighthacks",
@@ -20,7 +33,7 @@ st.html("""
 
 yt_vid = None
 error_message = None
-download_triggered = False
+search_triggered = False
 
 _, mid_col, _ = st.columns([1, 4, 1])
 
@@ -30,15 +43,19 @@ with mid_col:
         with title_col:
             st.markdown("#### KapTube")
 
-        yt_url = st.text_input("Video URL", placeholder=RICKROLL_URL, key="yt_url")
-        download_btn = st.button("Download", type="primary", use_container_width=True)
+        yt_url = st.text_input("Video URL", placeholder="https://www.youtube.com/watch?v=xvFZjo5PgG0")
+        search_btn = st.button(
+            "Search", type="primary",
+            icon=":material/search:",
+            use_container_width=True
+        )
 
     _, footer_col, _ = st.columns([1, 0.6, 1])
     with footer_col:
         st.text("#dwighthacks")
 
-    if download_btn:
-        download_triggered = True
+    if search_btn:
+        search_triggered = True
         with st.spinner("Pulling media from Google servers...", show_time=True):
             try:
                 yt_vid = downloader.download(yt_url, max_attempts=10)
@@ -48,11 +65,10 @@ with mid_col:
                 error_message = f"There was a problem downloading this video. {type(e).__name__}: {e}"
 
 # Outside mid_col: show result
-if download_triggered:
+if search_triggered:
     if yt_vid:
-        st.markdown("---")
-        st.markdown(f"##### {yt_vid.title}")
-        st.video(yt_vid.content, autoplay=True, loop=True)
-    elif error_message:
+        show_video_player()
+
+    if error_message:
         with mid_col:
             st.error(error_message, icon=":material/file_download_off:")
