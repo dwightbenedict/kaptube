@@ -41,7 +41,7 @@ with mid_col:
         download_triggered = True
         with st.spinner("Pulling media from Google servers...", show_time=True):
             try:
-                kapwing_asset = downloader.download(yt_url, max_attempts=10)
+                yt_vid = downloader.download(yt_url, max_attempts=10)
                 if not kapwing_asset:
                     error_message = "Unable to download this video due to licensing issues. It might be DRM-protected."
             except Exception as e:
@@ -49,10 +49,10 @@ with mid_col:
 
 # Outside mid_col: show result
 if download_triggered:
-    if kapwing_asset:
+    if yt_vid:
         st.markdown("---")
-        st.markdown(f"##### {kapwing_asset.title}")
-        st.video(kapwing_asset.link, autoplay=True, loop=True)
+        st.markdown(f"##### {yt_vid.title}")
+        st.video(yt_vid.content, autoplay=True, loop=True)
     elif error_message:
         with mid_col:
             st.error(error_message, icon=":material/file_download_off:")

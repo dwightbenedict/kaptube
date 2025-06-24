@@ -24,13 +24,13 @@ def extract_video_metadata(video_url: str) -> dict:
     return response.json()
 
 
-def get_final_google_video_url(initial_url: str) -> str:
+def get_content_bytes(initial_url: str) -> bytes:
     response = requests.get(initial_url, headers=HEADERS)
     response.raise_for_status()
-    return response.url
+    return response.content
 
 
-def get_asset_url(video_url: str, video_metadata: dict) -> str | None:
+def get_video_content(video_url: str, video_metadata: dict) -> bytes | None:
     url = "https://www.kapwing.com/api/trpc/asset.createFromLink"
     payload = {
         "extract_info": video_metadata,
@@ -45,12 +45,5 @@ def get_asset_url(video_url: str, video_metadata: dict) -> str | None:
     if ffmpeg_status not in {1, 2}:
         return None
 
-    asset_link = data["result"]["data"]["asset"]["url"]
-
-    if "googlevideo.com" in asset_link:
-        try:
-            asset_link = get_final_google_video_url(asset_link)
-        except requests.HTTPError:
-            return None
-
-    return asset_link
+    video_url = data["result"]["data"]["asset"]["url"]
+    return get_content_bytes(video_url)

@@ -6,19 +6,19 @@ import kapwing
 @dataclass
 class YoutubeVideo:
     title: str
-    link: str
+    content: bytes
 
 
 def download(yt_url: str, max_attempts: int) -> YoutubeVideo | None:
     video_metadata = kapwing.extract_video_metadata(yt_url)
 
     for _ in range(max_attempts):
-        asset_url = kapwing.get_asset_url(yt_url, video_metadata)
+        video_content = kapwing.get_video_content(yt_url, video_metadata)
 
-        if asset_url:
+        if video_content:
             return YoutubeVideo(
                 title=video_metadata["title"],
-                link=asset_url,
+                content=video_content,
             )
 
     return None
