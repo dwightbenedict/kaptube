@@ -12,7 +12,7 @@ st.set_page_config(
 st.html("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-    html, body, p, h1, h2, h3, h4, h5, h6 {
+    html, body, h1, h2, h3, h4, h5, h6, p, input {
         font-family: 'Inter', sans-serif !important;
     }
     </style>
