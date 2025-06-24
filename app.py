@@ -18,7 +18,7 @@ st.html("""
     </style>
 """)
 
-kapwing_asset = None
+yt_vid = None
 error_message = None
 download_triggered = False
 
@@ -30,7 +30,7 @@ with mid_col:
         with title_col:
             st.markdown("#### KapTube")
 
-        yt_url = st.text_input("Video URL", placeholder=RICKROLL_URL)
+        yt_url = st.text_input("Video URL", placeholder=RICKROLL_URL, key="yt_url")
         download_btn = st.button("Download", type="primary", use_container_width=True)
 
     _, footer_col, _ = st.columns([1, 0.6, 1])
@@ -42,7 +42,7 @@ with mid_col:
         with st.spinner("Pulling media from Google servers...", show_time=True):
             try:
                 yt_vid = downloader.download(yt_url, max_attempts=10)
-                if not kapwing_asset:
+                if not yt_vid:
                     error_message = "Unable to download this video due to licensing issues. It might be DRM-protected."
             except Exception as e:
                 error_message = f"There was a problem downloading this video. {type(e).__name__}: {e}"
