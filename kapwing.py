@@ -6,8 +6,8 @@ def extract_video_metadata(video_url: str) -> dict:
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0",
         "Content-Type": "application/json",
-        "Referer": "https://www.kapwing.com/",
         "X-Client-Version": "v2025.04.24.6",
+        "Referer": "https://www.kapwing.com/",
         "Origin": "https://www.kapwing.com"
     }
     payload = {
@@ -22,8 +22,8 @@ def extract_video_metadata(video_url: str) -> dict:
 def get_content_bytes(initial_url: str) -> bytes:
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Referer": "https://www.kapwing.com/",
+        "Origin": "https://www.kapwing.com"
     }
     response = requests.get(initial_url, headers=headers)
     response.raise_for_status()
