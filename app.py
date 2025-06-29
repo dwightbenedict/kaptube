@@ -5,16 +5,34 @@ import downloader
 @st.dialog("KapTube")
 def show_video_player() -> None:
     st.markdown(f"##### {yt_vid.title}")
-    st.video(yt_vid.content, autoplay=True, loop=True)
-    st.download_button(
-        "Download",
-        yt_vid.content,
-        file_name=yt_vid.filename,
-        mime="video/mp4",
-        type="primary",
-        icon=":material/vertical_align_bottom:",
-        use_container_width=True
-    )
+
+    if yt_vid.content:
+        st.video(yt_vid.content, autoplay=True, loop=True)
+        st.download_button(
+            "Download",
+            yt_vid.content,
+            file_name=yt_vid.filename,
+            mime="video/mp4",
+            type="primary",
+            icon=":material/vertical_align_bottom:",
+            use_container_width=True
+        )
+    else:
+        st.video(yt_vid.url, autoplay=True, loop=True)
+        download_btn = st.button(
+            "Download", type="primary", icon=":material/vertical_align_bottom:", use_container_width=True
+        )
+
+        if download_btn:
+            st.markdown(
+                f"""
+                    <script>
+                        window.open("{yt_vid.url}", "_blank");
+                    </script>
+                """,
+                unsafe_allow_html=True
+            )
+
 
 
 st.set_page_config(

@@ -19,18 +19,7 @@ def extract_video_metadata(video_url: str) -> dict:
     return response.json()
 
 
-def get_content_bytes(initial_url: str) -> bytes:
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0",
-        "Referer": "https://www.kapwing.com/",
-        "Origin": "https://www.kapwing.com"
-    }
-    response = requests.get(initial_url, headers=headers)
-    response.raise_for_status()
-    return response.content
-
-
-def get_video_content(video_url: str, video_metadata: dict) -> bytes | None:
+def get_download_url(video_url: str, video_metadata: dict) -> str | None:
     url = "https://www.kapwing.com/api/trpc/asset.createFromLink"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0",
@@ -53,5 +42,15 @@ def get_video_content(video_url: str, video_metadata: dict) -> bytes | None:
     if ffmpeg_status not in {1, 2}:
         return None
 
-    video_url = data["result"]["data"]["asset"]["url"]
-    return get_content_bytes(video_url)
+    return data["result"]["data"]["asset"]["url"]
+
+
+def get_video_content(download_url: str) -> bytes:
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0",
+        "Referer": "https://www.kapwing.com/",
+        "Origin": "https://www.kapwing.com"
+    }
+    response = requests.get(download_url, headers=headers)
+    response.raise_for_status()
+    return response.content
