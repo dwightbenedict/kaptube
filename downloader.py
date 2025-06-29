@@ -24,6 +24,9 @@ def download(yt_url: str, max_attempts: int) -> YoutubeVideo | None:
     for _ in range(max_attempts):
         download_url = kapwing.get_download_url(yt_url, video_metadata)
 
+        if not download_url:
+            continue
+
         try:
             video_content = kapwing.get_video_content(download_url)
             return YoutubeVideo(
