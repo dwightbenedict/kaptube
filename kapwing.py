@@ -1,6 +1,10 @@
 import requests
 
 
+KAPWING_VERSION = "v2025.04.24.6"
+KAPWING_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQzZTk5YTE4NDE5YzAwMjU0ZDk4ZmQiLCJhY2NvdW50VHlwZSI6MCwibmFtZSI6IkR3aWdodCBBUEkiLCJlbWFpbCI6ImFwaWR3aWdodEBnbWFpbC5jb20iLCJyb2xlIjoiZGVmYXVsdCIsImlhdCI6MTc0NTY0Mjk4MywiZXhwIjoxNzc3MTc4OTgzfQ.9XNWP97slXVD7LpqhNG_qC1AKQgQfbTq5KQitbOF8y4"
+
+
 def extract_video_metadata(video_url: str) -> dict:
     url = "https://us-east1-kapwing-prod.cloudfunctions.net/extract"
     headers = {
@@ -25,8 +29,8 @@ def get_download_url(video_url: str, video_metadata: dict) -> str | None:
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0",
         "Content-Type": "application/json",
         "Referer": "https://www.kapwing.com/",
-        "X-Client-Version": "v2025.04.24.6",
-        "X-Access-Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQzZTk5YTE4NDE5YzAwMjU0ZDk4ZmQiLCJhY2NvdW50VHlwZSI6MCwibmFtZSI6IkR3aWdodCBBUEkiLCJlbWFpbCI6ImFwaWR3aWdodEBnbWFpbC5jb20iLCJyb2xlIjoiZGVmYXVsdCIsImlhdCI6MTc0NTY0Mjk4MywiZXhwIjoxNzc3MTc4OTgzfQ.9XNWP97slXVD7LpqhNG_qC1AKQgQfbTq5KQitbOF8y4",
+        "X-Client-Version": KAPWING_VERSION,
+        "X-Access-Token": KAPWING_ACCESS_TOKEN,
         "Origin": "https://www.kapwing.com"
     }
     payload = {
