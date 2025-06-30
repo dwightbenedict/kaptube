@@ -1,8 +1,12 @@
 import requests
+import os
+from dotenv import load_dotenv
 
 
-KAPWING_VERSION = "v2025.04.24.6"
-KAPWING_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQzZTk5YTE4NDE5YzAwMjU0ZDk4ZmQiLCJhY2NvdW50VHlwZSI6MCwibmFtZSI6IkR3aWdodCBBUEkiLCJlbWFpbCI6ImFwaWR3aWdodEBnbWFpbC5jb20iLCJyb2xlIjoiZGVmYXVsdCIsImlhdCI6MTc0NTY0Mjk4MywiZXhwIjoxNzc3MTc4OTgzfQ.9XNWP97slXVD7LpqhNG_qC1AKQgQfbTq5KQitbOF8y4"
+load_dotenv()
+
+KAPWING_VERSION = os.environ.get("KAPWING_VERSION")
+KAPWING_ACCESS_TOKEN = os.environ.get("KAPWING_ACCESS_TOKEN")
 
 
 def extract_video_metadata(video_url: str) -> dict:
